@@ -6,6 +6,7 @@ const port = 3000;
 
 app.use(express.json());
 
+// --------------------- Users ------------------------
 app.post('/api/v1/users', async (req, res) => {
     // Menambahkan user dan profil baru
 
@@ -122,6 +123,7 @@ app.delete('/api/v1/users/:userId', async (req, res) => {
     }
 });
 
+// --------------------- Accounts ------------------------
 app.post('/api/v1/accounts', async (req, res) => {
     // Menambahkan akun baru
 
@@ -173,6 +175,7 @@ app.get('/api/v1/accounts/:accountsId', async (req, res) => {
     }
 });
 
+// --------------------- Transactions ------------------------
 app.post('/api/v1/transactions', async (req, res) => {
     // Membuat transaksi dengan mengirim saldo ke nomor rekening lain
 
@@ -236,10 +239,13 @@ app.get('/api/v1/transactions/:transaction', async (req, res) => {
     // Menampilkan data transaksi berdasarkan ID
 
     const {transaction} = req.params;
-
     try {
         const transactionData = await prisma.transactions.findUnique({
             where: {id: parseInt(transaction)},
+            include: {
+                source_account: true,
+                destination_account: true,
+            }
         });
 
         if(transactionData) {
