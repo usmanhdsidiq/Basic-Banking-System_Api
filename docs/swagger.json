@@ -131,6 +131,54 @@
                         "description": "Kesalahan pada server"
                     }
                 }
+            },
+            "put": {
+                "summary": "Memperbarui data user dan profil berdasarkan ID",
+                "tags": ["Users"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "schema": { "type": "integer" },
+                        "required": true,
+                        "description": "Masukkan ID user yang akan diupdate"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": { "type": "string" },
+                                    "email": { "type": "string" },
+                                    "password": { "type": "string" },
+                                    "profile": {
+                                        "type": "object",
+                                        "properties": {
+                                            "identity_type": { "type": "string" },
+                                            "identity_number": { "type": "string" },
+                                            "address": { "type": "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data user dan profil berhasil diperbarui",
+                        "content": {
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/User" }
+                            }
+                        }
+                    },
+                    "404": { "description": "Data user tidak ditemukan"},
+                    "500": { "description": "Kesalahan pada server" }
+                }
             }
         }
     },
