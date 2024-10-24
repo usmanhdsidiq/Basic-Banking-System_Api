@@ -179,6 +179,103 @@
                     "404": { "description": "Data user tidak ditemukan"},
                     "500": { "description": "Kesalahan pada server" }
                 }
+            },
+            "delete": {
+                "summary": "Menghapus data user dan profil berdasarkan ID",
+                "tags": ["Users"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "schema": { "type": "integer" },
+                        "required": true,
+                        "description": "Masukkan ID user yang akan dihapus"
+                    }
+                ],
+                "responses": {
+                    "200": { "description": "User berhasil dihapus" },
+                    "404": { "description": "User tidak ditemukan" },
+                    "500": { "description": "Kesalahan pada server" }
+                }
+            }
+        },
+        "/api/v1/accounts": {
+            "post": {
+                "summary": "Menambahkan akun baru",
+                "tags": ["Accounts"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_id": { "type": "integer" },
+                                    "bank_name": { "type": "string" },
+                                    "bank_account_number": { "type": "integer" },
+                                    "amount": { "type": "number" }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Akun berhasil ditambahkan",
+                        "content": {
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/Account" }
+                            }
+                        }
+                    },
+                    "400": { "description": "Request atau input tidak valid" },
+                    "500": { "description": "Kesalahan pada server" }
+                }
+            },
+            "get": {
+                "summary": "Menampilkan data akun yang telah ditambahkan",
+                "tags": ["Accounts"],
+                "responses": {
+                    "200": {
+                        "description": "Data akun berhasil ditampilkan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": { "$ref": "#/components/schemas/Account" }
+                                }
+                            }
+                        }
+                    },
+                    "500": { "description": "Kesalahan pada server" }
+                }
+            }
+        },
+        "/api/v1/accounts/{accountsId}": {
+            "get": {
+                "summary": "Menampilkan data akun berdasarkan ID",
+                "tags": ["Accounts"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accountsId",
+                        "schema": { "type": "integer" },
+                        "required": true,
+                        "description": "Masukkan ID akun"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data akun berhasil ditampilkan",
+                        "content": {
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/Account" }
+                            }
+                        }
+                    },
+                    "404": { "description": "Akun tidak ditemukan" },
+                    "500": { "description": "Kesalahan pada server" }
+                }
             }
         }
     },
@@ -220,6 +317,43 @@
                         "type": "string"
                     },
                     "address": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Account": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "bank_name": {
+                        "type": "string"
+                    },
+                    "bank_account_number": {
+                        "type": "integer"
+                    },
+                    "balance": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Transaction": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "account_id": {
+                        "type": "integer"
+                    },
+                    "amount": {
+                        "type": "number"
+                    },
+                    "type": {
                         "type": "string"
                     }
                 }

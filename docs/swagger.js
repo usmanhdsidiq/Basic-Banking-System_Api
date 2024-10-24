@@ -4,5 +4,5 @@ const path = require('path');
 const swaggerDocuments = JSON.parse(fs.readFileSync(path.join(__dirname, 'swagger.json'), 'utf8'));
 
 module.exports = (app) => {
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocuments));
+    app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocuments));
 };
