@@ -1,12 +1,14 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const app = express();
+const swaggerSetup = require('./docs/swagger');
 const prisma = new PrismaClient();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
+swaggerSetup(app);
 
-// --------------------- Users ------------------------
+// --------------------- Users endpoints ------------------------
 app.post('/api/v1/users', async (req, res) => {
     // Menambahkan user dan profil baru
 
