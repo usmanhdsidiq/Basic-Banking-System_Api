@@ -69,7 +69,15 @@
                     "500": {
                         "description": "Kesalahan pada server"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             },
             "get": {
                 "summary": "Menampilkan data user",
@@ -178,7 +186,15 @@
                     },
                     "404": { "description": "Data user tidak ditemukan"},
                     "500": { "description": "Kesalahan pada server" }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             },
             "delete": {
                 "summary": "Menghapus data user dan profil berdasarkan ID",
@@ -196,7 +212,15 @@
                     "200": { "description": "User berhasil dihapus" },
                     "404": { "description": "User tidak ditemukan" },
                     "500": { "description": "Kesalahan pada server" }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             }
         },
         "/api/v1/accounts": {
@@ -231,7 +255,15 @@
                     },
                     "400": { "description": "Request atau input tidak valid" },
                     "500": { "description": "Kesalahan pada server" }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             },
             "get": {
                 "summary": "Menampilkan data akun yang telah ditambahkan",
@@ -310,7 +342,15 @@
                     },
                     "400": { "description": "Request tidak valid" },
                     "500": { "description": "Kesalahan pada server" }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             },
             "get": {
                 "summary": "Menampilkan data transaksi",
@@ -445,6 +485,12 @@
                         "type": "string"
                     }
                 }
+            }
+        },
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
             }
         }
     }
