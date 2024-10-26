@@ -117,11 +117,9 @@ app.delete('/api/v1/users/:userId', async (req, res) => {
         });
         if(deleteUser) {
             res.status(200).json({message: 'User berhasil dihapus', deleteUser});
-        } else {
-            res.status(404).json({message: 'User tidak ditemukan'});
         }
     } catch(error) {
-        res.status(500).json({error: error.message});
+        res.status(404).json({message: 'User tidak ditemukan'});
     }
 });
 
@@ -253,13 +251,21 @@ app.get('/api/v1/transactions/:transaction', async (req, res) => {
         if(transactionData) {
             res.status(200).json(transactionData);
         } else {
-            res.status(401).json({message: 'Transaksi tidak ditemukan'});
+            res.status(404).json({message: 'Transaksi tidak ditemukan'});
         }
     } catch(error) {
         res.status(500).json({error: error.message});
     }
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-})
+if(process.env.NODE_ENV !== 'test') {
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
+}
+ 
+// app.listen(port, () => {
+//     console.log(`Server is running on port ${port}`);
+// });
+
+module.exports = app;
