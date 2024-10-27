@@ -3,10 +3,34 @@ const { PrismaClient } = require('@prisma/client');
 const app = express();
 const swaggerSetup = require('./docs/swagger');
 const prisma = new PrismaClient();
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const path = require('path');
+const authRoute = require('./routes/auth');
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 swaggerSetup(app);
+
+// JWT authentication
+// Middleware
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
+
+// Routes
+app.use('/home', authRoute);
+app.get('/home', (req, res) => {
+    res.render('home', {userLogin: req.user});
+});
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+app.get('/register', (req, res) => {
+    res.render('register');
+})
+
 
 // --------------------- Users endpoints ------------------------
 app.post('/api/v1/users', async (req, res) => {
