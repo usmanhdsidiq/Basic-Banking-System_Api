@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrpt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -9,27 +9,29 @@ const jwtKey = process.env.JWT_SECRET;
 function authenticateToken(req, res, next) {
     const token = req.cookies.token;
     if(!token) {
-        return res.redirect('/login');
+        res.send({ message: 'Autentikasi gagal' });
+        return res.redirect('/login-view');
     }
 
     jwt.verify(token, jwtKey, (err, user) => {
         if(err) {
-            return res.redirect('/login');
+            res.send({ message: 'Kesalahan autentikasi' });
+            return res.redirect('/login-view');
         }
-        req.userLogin = userLogin;
+        req.user = user;
         next();
     });
 }
 
 router.post('/register', async (req, res) => {
     const {username, password} = req.body;
-    const hashedPassword = await bcrpt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
         await prisma.userLogin.create({
             data: {username, password: hashedPassword}
         });
-        res.redirect('/login');
+        res.redirect('/login-view');
     } catch(error) {
         console.error(error);
         res.status(500).json({error: error.message});
@@ -40,16 +42,16 @@ router.post('/login', async (req, res) => {
     const {username, password} = req.body;
 
     try {
-        const userLogin = await prisma.userLogin.findUnique({
+        const user = await prisma.userLogin.findUnique({
             where: {username}
         });
 
-        if(userLogin && await bcrypt.compare(password, userLogin.password)) {
-            const token = jwt.sign({username}, jwtKey);
+        if(user && await bcrypt.compare(password, user.password)) {
+            const token = jwt.sign({username: user.username, id: user.id}, jwtKey, {expiresIn: '1h'});
             res.cookie('token', token, {httpOnly: true});
-            res.redirect('/home');
+            res.redirect('/home-view');
         } else {
-            res.redirect('/login');
+            res.redirect('/login-view');
         }
     } catch(error) {
         console.error(error);
@@ -63,7 +65,7 @@ router.get('/auth/authenticate', authenticateToken, (req, res) => {
 
 router.get('/logout', (req, res) => {
     res.clearCookie('token');
-    res.redirect('/login');
+    res.redirect('/login-view');
 });
 
 module.exports = router;

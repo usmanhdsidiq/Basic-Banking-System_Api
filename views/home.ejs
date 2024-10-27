@@ -6,8 +6,8 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Halo, <%= userLogin.username %></h1>
-    <a href="/auth">Cek Autentikasi</a>
+    <h1>Halo, <%= user ? user.userLogin : 'Guest' %></h1>
+    <a href="/auth/authenticate">Cek Autentikasi</a>
     <a href="/logout">Logout</a>
 </body>
 </html>

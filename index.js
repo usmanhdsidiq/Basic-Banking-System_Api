@@ -20,14 +20,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
 // Routes
-app.use('/home', authRoute);
-app.get('/home', (req, res) => {
-    res.render('home', {userLogin: req.user});
+app.use('/', authRoute);
+app.get('/home-view', (req, res) => {
+    res.render('home', {user: req.user});
 });
-app.get('/login', (req, res) => {
+app.get('/login-view', (req, res) => {
     res.render('login');
 });
-app.get('/register', (req, res) => {
+app.get('/register-view', (req, res) => {
     res.render('register');
 })
 
