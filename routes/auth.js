@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/auth/authenticate', authenticateToken, (req, res) => {
-    res.send({ message: 'Autentikasi berhasil', user: req.user });
+    res.send({ message: 'Autentikasi berhasil', user: req.user, accesstoken });
 });
 
 router.get('/logout', (req, res) => {
