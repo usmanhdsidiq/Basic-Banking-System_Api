@@ -21,13 +21,10 @@ app.use(cookieParser());
 
 // Routes
 app.use('/', authRoute);
-app.get('/home-view', (req, res) => {
-    res.render('home', {user: req.user});
-});
-app.get('/login-view', (req, res) => {
+app.get('/login', (req, res) => {
     res.render('login');
 });
-app.get('/register-view', (req, res) => {
+app.get('/register', (req, res) => {
     res.render('register');
 })
 
