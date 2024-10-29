@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Cek Autentikasi</h1>
+    <p><%= message %></p>
+    <% if(user && accesstoken) { %>
+        <p>Username: <%= user.username %></p>
+        <p>Access Token: <%= accesstoken %></p>
+        <p>Expiry Time: <%= user.exp %></p>
+
+        <a href="/logout">Logout</a>
+    <% } else { %>
+        <a href="/login">Login dulu boss...</a>
+    <% } %>
+    
+</body>
+</html>

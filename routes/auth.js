@@ -8,15 +8,17 @@ const jwtKey = process.env.JWT_SECRET;
 
 function authenticateToken(req, res, next) {
     const token = req.cookies.token;
+    const user = false;
+    const accesstoken = false;
     if(!token) {
-        res.send({ message: 'Autentikasi gagal atau anda belum login' });
-        return res.redirect('/login');
+        res.render('home', { message: 'Autentikasi gagal atau anda belum login', user, accesstoken });
+        // return res.redirect('/login');
     }
 
     jwt.verify(token, jwtKey, (err, user) => {
         if(err) {
-            res.send({ message: 'Kesalahan autentikasi' });
-            return res.redirect('/login');
+            res.render('home', { message: 'Kesalahan autentikasi', user, accesstoken });
+            // return res.redirect('/login');
         }
         req.user = user;
         next();
@@ -69,7 +71,7 @@ router.post('/login', async (req, res) => {
 
 router.get('/auth/authenticate', authenticateToken, (req, res) => {
     const accesstoken = req.cookies.token;
-    res.send({ message: 'Autentikasi berhasil', user: req.user, accesstoken });
+    res.render('home',{ message: 'Autentikasi berhasil', user: req.user, accesstoken });
 });
 
 router.get('/logout', (req, res) => {
