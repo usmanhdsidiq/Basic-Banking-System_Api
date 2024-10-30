@@ -26,6 +26,9 @@ app.get('/login', (req, res) => {
 });
 app.get('/register', (req, res) => {
     res.render('register');
+});
+app.get('/error', (req, res) => {
+    res.render('error');
 })
 
 

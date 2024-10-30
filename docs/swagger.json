@@ -101,7 +101,15 @@
                     "500": {
                         "description": "Kesalahan pada server"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             }
         },
         "/api/v1/users/{userId}": {
@@ -138,7 +146,15 @@
                     "500": {
                         "description": "Kesalahan pada server"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             },
             "put": {
                 "summary": "Memperbarui data user dan profil berdasarkan ID",
@@ -281,7 +297,15 @@
                         }
                     },
                     "500": { "description": "Kesalahan pada server" }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             }
         },
         "/api/v1/accounts/{accountsId}": {
@@ -308,7 +332,15 @@
                     },
                     "404": { "description": "Akun tidak ditemukan" },
                     "500": { "description": "Kesalahan pada server" }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             }
         },
         "/api/v1/transactions": {
@@ -368,7 +400,15 @@
                         }
                     },
                     "500": { "description": "Kesalahan pada server" }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             }
         },
         "/api/v1/transactions/{transaction}": {
@@ -403,7 +443,15 @@
                     },
                     "404": { "description": "Transaksi tidak ditemukan" },
                     "500": { "description": "Kesalahan pada server" }
-                }
+                },
+                "security": [
+                    {
+                        "basicAuth": [
+                            "read:iniApiKey",
+                            "write:iniApiKey"
+                        ]
+                    }
+                ]
             }
         }
     },

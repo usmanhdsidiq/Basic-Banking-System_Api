@@ -9,13 +9,13 @@ const jwtKey = process.env.JWT_SECRET;
 function authenticateToken(req, res, next) {
     const token = req.cookies.token;
     if(!token) {
-        return res.render('error', { message: 'Autentikasi gagal atau anda belum login' });
+        return res.redirect('/error');
         // return res.redirect('/login');
     }
 
     jwt.verify(token, jwtKey, (err, user) => {
         if(err) {
-             return res.render('error', { message: 'Kesalahan autentikasi' });
+             return res.redirect('/error');
             // return res.redirect('/login');
         } else {
             req.user = user;
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
             res.cookie('token', token, {httpOnly: true});
             res.redirect('/auth/authenticate');
         } else {
-            return res.status(404).json({message: 'Username atau password salah'});
+            return res.redirect('/error');
         }
     } catch(error) {
         console.error(error);
