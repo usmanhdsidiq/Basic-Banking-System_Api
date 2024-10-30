@@ -50,7 +50,7 @@ describe('Endpoint users', () => {
             });
 
             expect(res.statusCode).toEqual(400);
-        })
+        });
     })
     
 
@@ -76,7 +76,13 @@ describe('Endpoint users', () => {
 
             const res = await request(app).get(`/api/v1/users/${userId}`);
             expect(res.statusCode).toEqual(404);
-        })
+        });
+
+        test('server error', async () => {
+            prisma.users.get = jest.fn().mockRejectedValue(new Error('server error'));
+            const res = await request(app).get(`/api/v1/users/1`);
+            expect(res.statusCode).toEqual(500);
+        });
     })
     
 
@@ -85,8 +91,8 @@ describe('Endpoint users', () => {
             const userId = 2;
 
             const res = await request(app).put(`/api/v1/users/${userId}`).send({
-                email: 'jokoui@mail.com',
-                password: 'jokoui123',
+                email: 'jokowi@mail.com',
+                password: 'jokowi123',
                 profile: {
                     address: 'Solo, Indonesia'
                 },
@@ -99,14 +105,20 @@ describe('Endpoint users', () => {
             const userId = 99;
 
             const res = await request(app).put(`/api/v1/users/${userId}`).send({
-                email: 'jokoui@mail.com',
-                password: 'jokoui123',
+                email: 'joko@mail.com',
+                password: 'joko123',
                 profile: {
                     address: 'Solo, Indonesia'
                 },
             });
     
             expect(res.statusCode).toEqual(400);
+        });
+
+        test('server error', async () => {
+            prisma.users.put = jest.fn().mockRejectedValue(new Error('server error'));
+            const res = await request(app).put(`/api/v1/users/99`);
+            expect(res.statusCode).toBe(500);
         });
     })
     
@@ -122,7 +134,13 @@ describe('Endpoint users', () => {
             const userId = 99;
 
             const res = await request(app).delete(`/api/v1/users/${userId}`);
-            expect(res.statusCode).toEqual(404);
+            expect(res.statusCode).toBe(404);
+        });
+
+        test('server error', async () => {
+            prisma.users.delete = jest.fn().mockRejectedValue(new Error('server error'));
+            const res = await request(app).delete(`/api/v1/users/1`);
+            expect(res.statusCode).toBe(500);
         });
     })
 });

@@ -121,10 +121,14 @@ app.put('/api/v1/users/:userId', async (req, res) => {
         if(updateUser) {
             res.status(200).json({message: 'User diperbarui', updateUser});
         } else {
-            res.status(404).json({message: 'User tidak ditemukan'});
+            
         }
     } catch(error) {
-        res.status(500).json({error: error.message});
+        if(error.code === 'P2025') {
+            res.status(404).json({message: 'User tidak ditemukan'});
+        } else {
+            res.status(500).json({error: error.message});
+        }
     }
 });
 
@@ -138,9 +142,13 @@ app.delete('/api/v1/users/:userId', async (req, res) => {
         });
         if(deleteUser) {
             res.status(200).json({message: 'User berhasil dihapus', deleteUser});
-        }
+        } 
     } catch(error) {
-        res.status(404).json({message: 'User tidak ditemukan'});
+        if(error.code === 'P2025') {
+            res.status(404).json({message: 'User tidak ditemukan'});
+        } else {
+            res.status(500).json({message: 'Server error', error: error.message});
+        }
     }
 });
 
@@ -158,9 +166,9 @@ app.post('/api/v1/accounts', async (req, res) => {
                 balance,
             },
         });
-        res.status(201).json(tambahAccount);
+        return res.status(201).json(tambahAccount);
     } catch(error) {
-        res.status(400).json({error: 'Gagal menambahkan akun baru, pastikan user_id sudah benar'});
+        return res.status(400).json({error: 'Gagal menambahkan akun baru, pastikan user_id sudah benar'});
     }
 });
 

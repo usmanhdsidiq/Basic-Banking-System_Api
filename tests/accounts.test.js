@@ -62,6 +62,11 @@ describe('Endpoint accounts', () => {
             const res = await request(app).get('/api/v1/accounts');
             expect(res.statusCode).toEqual(200);
         });
+
+        test('server error', async () => {
+            const res = await request(app).get(`/api/v1/transactions`);
+            expect(res.statusCode).toBe(500);
+        });
     })
 
     describe('GET /api/v1/accounts/:id', () => {
@@ -75,6 +80,12 @@ describe('Endpoint accounts', () => {
             const userId = 99;
             const res = await request(app).get(`/api/v1/accounts/${userId}`);
             expect(res.statusCode).toEqual(404);
+        });
+
+        test('server error', async () => {
+            prisma.accounts.findUnique = jest.fn().mockRejectedValue(new Error('server error'));
+            const res = await request(app).get(`/api/v1/users/1`);
+            expect(res.statusCode).toBe(500);
         });
     })
 })

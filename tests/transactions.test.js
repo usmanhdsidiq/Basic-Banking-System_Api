@@ -78,11 +78,17 @@ describe('Endpoint transactions', () => {
             const res = await request(app).get('/api/v1/transactions');
             expect(res.statusCode).toEqual(200);
         });
+
+        test('server error', async () => {
+            prisma.transactions.get = jest.fn().mockRejectedValue(new Error('server error'));
+            const res = await request(app).get(`/api/v1/transactions`);
+            expect(res.statusCode).toEqual(500);
+        });
     });
 
     describe('GET /api/v1/transactions/:transaction', () => {
         test('menampilkan transaksi berdasarkan ID', async () => {
-            let transactionId = 2;
+            let transactionId = 3;
             const res = await request(app).get(`/api/v1/transactions/${transactionId}`);
             expect(res.statusCode).toEqual(200);
         });
@@ -92,6 +98,11 @@ describe('Endpoint transactions', () => {
             const res = await request(app).get(`/api/v1/transactions/${transactionId}`);
             expect(res.statusCode).toEqual(404);
         });
-    });
 
+        test('server error', async () => {
+            prisma.transactions.get = jest.fn().mockRejectedValue(new Error('server error'));
+            const res = await request(app).get(`/api/v1/transactions/1`);
+            expect(res.statusCode).toEqual(500);
+        });
+    });
 })
