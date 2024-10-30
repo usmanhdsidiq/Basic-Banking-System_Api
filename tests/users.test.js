@@ -6,21 +6,23 @@ describe('Endpoint users', () => {
     describe('POST /api/v1/users', () => {
         test('membuat user baru beserta profilnya', async () => {
             prisma.users.create.mockResolvedValue({
-                name: 'Donald Trump',
-                email: 'trump@mail.com',
+                name: 'Barack Obama',
+                email: 'obama@mail.com',
+                password: 'obama123',
                 profile: {
                     identity_type: 'Passport',
-                    identity_number: '123456789',
+                    identity_number: '555432',
                     address: 'Washington DC, USA'
                 },
             });
     
             const res = await request(app).post('/api/v1/users').send({
-                name: 'Donald Trump',
-                email: 'trump@mail.com',
+                name: 'Barack Obama',
+                email: 'obama@mail.com',
+                password: 'obama123',
                 profile: {
                     identity_type: 'Passport',
-                    identity_number: '123456789',
+                    identity_number: '555432',
                     address: 'Washington DC, USA'
                 },
             });
